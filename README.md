@@ -4,7 +4,7 @@ Over the last four weeks you've learned HTML, CSS and CSS Grid, JavaScript basic
 
 It's time to put your skills to practice by creating a movies search app!
 
-Your app will take a title of a movie and display a list of relevant movies on the page.
+Your app will take a title of a movie and display a list of relevant movies on the page. You should also have the ability to 'like' movies and save them in your favorites.
 
 Click [here](https://kernel-files.s3.eu-west-1.amazonaws.com/images/0374078b.png) to see how your app should look - more or less, design is up to you - in the end.
 
@@ -18,7 +18,7 @@ Good luck!
 
 -   Create your local directory with Git and NPM. You should have a `server.js` file and a dist folder
 
--   Inside your dist folder you should have an `index.html`, `style.css`, `main.js`, and `Renderer.js`
+-   Inside your dist folder you should have an `index.html`, `style.css`, `main.js`, `MovieManager.js` and `Renderer.js`
 
 -   Install jquery, handlebars, express, and urllib with NPM, we'll be using these packages in the project
 -   Don't forget to add `node_modules` to your `.gitignore` file!
