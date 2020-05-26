@@ -59,12 +59,21 @@ You can also try the [request package](https://www.npmjs.com/package/request)
 
 #### 4\. CLIENT SETUP
 
+- Create a class called `MovieManager` in the `MovieManager.js` file. The `MovieManager` class should have the following:
+    - a `movies` property
+    - a `getMovies` method that:
+        - receives a parameter, `title`
+        - makes a request to the `/movies` route with the title
+        - You should receive an object with an array of movies from this request
+        - Updates the `movies` array in the class with the array of movies from the response
 -   Setup your HTML boilerplate with all the relevant scripts
 -   Create an input for a movie title, and a Search! button
--   When the button is clicked, take the value of the input (with jQuery) and make a request to `/movies`
-    -   The value from the input should be your `title` parameter
+-   In `main.js`:
+    - Create an instance of your `MovieManager` class
+    - Add a click listener so that when the button is clicked, you take the value of the input (with jQuery) and invoke the `getMovies` method with the input value
+    - Remember the `getMovies` method does something asynchronous. Make sure to `console.log()` the `movies` property after invoking the function to make sure you are dealing with the asynchronous code correctly
 
-You should receive an object with an array of movies from this request. This array should have several objects, each with:
+The `movies` property in the `MovieManager` instance should now be an array of movies. This array should have several objects, each with:
 
 -   An id
 -   A title
