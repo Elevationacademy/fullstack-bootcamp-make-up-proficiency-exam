@@ -1,4 +1,4 @@
-#### INTRO
+### INTRO
 
 Over the last four weeks you've learned HTML, CSS and CSS Grid, JavaScript basics and ES6 array methods, git version control, jQuery, Handlebars, OOP, APIs, Node JS, Express and a few more things here and there.
 
@@ -14,7 +14,7 @@ Good luck!
 
 * * * * *
 
-#### 1\. SET UP YOUR PROJECT
+### 1\. SET UP YOUR PROJECT
 
 -   Create your local directory with Git and NPM. You should have a `server.js` file and a dist folder
 
@@ -26,7 +26,7 @@ Good luck!
 
 * * * * *
 
-#### 2\. SET UP YOUR SERVER
+### 2\. SET UP YOUR SERVER
 
 Create a server using express on port 8080. Don't forget to use your `dist` and `node_modules` folders.
 
@@ -34,7 +34,7 @@ Create a get route called `/sanity` that responds with "OK" to make sure y
 
 * * * * *
 
-#### 3\. REQUEST TO THE MOVIE API
+### 3\. REQUEST TO THE MOVIE API
 
 We'll be making requests to the [OMDB](http://www.omdbapi.com/#usage) API from our server. This API gives us access to many movies.
 
@@ -57,7 +57,7 @@ You can also try the [request package](https://www.npmjs.com/package/request)
 
 * * * * *
 
-#### 4\. CLIENT SETUP
+### 4\. CLIENT SETUP
 
 - Create a class called `MovieManager` in the `MovieManager.js` file. The `MovieManager` class should have the following:
     - a `movies` property
@@ -82,7 +82,7 @@ The `movies` property in the `MovieManager` instance should now be an array of m
 
 * * * * *
 
-#### CHECK-POINT
+### CHECK-POINT
 
 This is the most important part of the project - client server communication.
 
@@ -90,7 +90,7 @@ This is the most important part of the project - client server communication.
 
 * * * * *
 
-#### 5\. RENDERER
+### 5\. RENDERER
 
 -   Create a new class for your Renderer
 -   Add a `render` method to the class for rendering movies
@@ -112,7 +112,7 @@ You'll need to create a Handlebars template which can process this data.
 
 * * * * *
 
-#### 6\. CHECK-POINT
+### 6\. CHECK-POINT
 
 So far:
 
@@ -123,21 +123,54 @@ So far:
 
 * * * * *
 
-#### 7\. DOM TRAVERSAL
+### 7\. Database
 
-Now, we are going to display the ratings for a movie when clicking on it's image. For this you should:
+Ok, so let's add a database to this bad boy!
 
-- Add a click listener to each image. When the image is clicked, get the id of that movie (from the `data-id` attribute in the movie div).
-- Once you have the id, make a new request to the Movie API (you can do this directly from the client).
-- *Note*: You can use the 'i' paramter to search for a specific movie by id (check out the [docs](http://www.omdbapi.com/#usage))
-- The API should respond with one movie object, where one of the keys will be an array of ratings.
-- Loop through the ratings and append each one of the ratings as an `li` in the `ul` (created earlier) of that movie.
+- Start off with creating a `Movie Schema`. Each movie should have a `title`, `imdbId`, `poster`, and `year` (each of them are strings).
+- Connect your server to a DB called `MoviesDB` using `mongoose.connect()` (in your `server.js`).
+- Create a `post` route in your `api.js` file called `/movie` that:
+    - Receives a movie object in its' `body`
+    - Saves the movie in the database
+    - Responds with the newly saved movie (make sure the response includes the MongoDB `_id`)
+- Create a `get` route in your `api.js` file call `/movie` that:
+    - Receives **no** paramters
+    - Queries the DB for all the movies that are saved in the DB
+    - Responds with the array of movies (found in the DB)
 
-*Important Note*: You can do this without Handlebars if you want (meaning just jQuery), whatever works for you.
+Now it's time to add support for this on the client. The goal is to have a button that, when clicked, displays all the saved movies. To do this you must update a few things:
+
+#### `MoviesManager` class
+
+- Add a `getMoviesFromDB` method to your  class. This method should:
+    - Make a `get` request to your server's `/movies` route
+    - Reassign the class's `movies` property with the data that cam back from the request
+    - (remember some of this is async)
+- Add a `saveMovie` method to your class. This method should:
+    - Receive one paramter, `title`
+    - Finds the movie (object) with that title in the class's `movie` property
+    - Makes a `post` request to your `/movie` route with the movie found above
+
+
+#### `HTML`
+
+- Add a `show favorites` button to the `html`
+- Add an `add to favorites` button to each movie in your Handlebars template
+
+#### `main.js`
+
+- Add an event listener so that when a user clicks the `add to favorites` button, you:
+    - Traverse the DOM to find the title of the current movie
+    - Invoke the `MovieManager`'s `saveMovie` method with the title found above
+- Add an event listener so that when a user clicks the `show favorites` button, you:
+    - Invoke the `MovieManager`'s `getMoviesFromDB` method
+    - Render all the saved movies from `MovieManager`
+
+Now, after searching some movies, you should be able to click `add to favorites` to add the movie to the DB. Then, when clicking, on `show favorites` you should see all the movies that were saved in the DB.
 
 * * * * *
 
-#### 8\. DESIGN & GRID
+### 8\. DESIGN & GRID
 
 The design is mainly up to you, but make sure to use CSS Grid.
 
@@ -145,12 +178,4 @@ Please do not spend too long on this section. You should have some reasonable la
 
 * * * * *
 
-#### 9\. COMMIT AND PUSH YOUR PROJECT TO GITHUB
-
-If you are about to push code that doesn't work, make a note in the commit message. Something like "works until part 7"
-
-* * * * *
-
-#### 10\. DONE
-
-Take a breath. All is well. Give yourself a pat on the back.
+### 9\. Deleting a Movie
