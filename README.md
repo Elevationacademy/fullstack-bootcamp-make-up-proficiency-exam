@@ -170,12 +170,44 @@ Now, after searching some movies, you should be able to click `add to favorites`
 
 * * * * *
 
-### 8\. DESIGN & GRID
+### 8\. Deleting a Movie
+
+Finally, it's time to allow a user to delete a movie that they previously saved as a favorite. To accomplish this, you should:
+
+- Add a `delete` route named `/movie` to your `api.js`. It should receive a movie object as a `body` and delete the movie (with the same id) from the DB.
+- Add a `deleteMovie` method to your `MovieManager` class. This method should:
+    - Receive an `_id` as a parameter
+    - Find the movie with that id in the class's `movies` array
+    - Send a delete request to the server with the movie (found above)
+    - Remove the movie (found above) from the `movies` array (in the `MovieManager` class)
+- Add a `remove from favorites` button to each movie (you can do this in your handlebars template)
+- Add an event listener in your `main.js` so that when a user clicks on the `remove from favorites` button, you invoke the `deleteMovie` method in the `MovieManager` class and then re-render the data
+    - Make sure your are storing the `_id` from the database in the HTML (you can do this with a `data-dbId` or similar)
+    - If you don't have this, add this to your handlebars template
+
+*Remember that some of the above functionality is asynchronous. Make sure to handle it correctly.*
+
+* * * * *
+
+### 9\. DESIGN & GRID
 
 The design is mainly up to you, but make sure to use CSS Grid.
 
 Please do not spend too long on this section. You should have some reasonable layout - don't go crazy about every pixel.
 
+
 * * * * *
 
-### 9\. Deleting a Movie
+### 10\. Extensions
+
+1. Only show the `remove from favorites` button on movies that are saved (in the DB)and only show the `add to favorites` button on movies that are not saved (in the DB)
+    - Hint: Think of what data (object property) is available after something is saved in the DB and use a handlebars helper to only show the buttons if the propert exists or doesn't exist
+2. Display the ratings for a movie when clicking on it's image. For this you should:
+    - Add a click listener to each image. When the image is clicked, get the id of that movie (from the data-id attribute in the movie div from part 5 - remember this is the imdb movie id)
+    - Once you have the id, make a new request to the Movie API (you can do this directly from the client).
+        - This should be in a new method in the `MovieManager` class
+        - Note: You can use the 'i' paramter to search for a specific movie by id (check out the docs)
+    - The API should respond with one movie object, where one of the keys will be an array of ratings.
+    - Loop through the ratings and append each one of the ratings as an li in the ul (created earlier) of that movie.
+        - Make sure this happens in a new method in the `Renderer` class
+        - Important Note: You can do this without Handlebars if you want (meaning just jQuery), whatever works for you.
